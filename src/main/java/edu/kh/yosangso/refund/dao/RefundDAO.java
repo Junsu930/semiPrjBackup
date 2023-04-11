@@ -53,8 +53,10 @@ public class RefundDAO {
 				String orderNo = rs.getString("ORDER_NO");
 				String orderDate = rs.getString("ORDER_DATE");
 				String address = rs.getString("ADDRESS");
+				String productName = rs.getString("PRODUCT_NM");
+				int count = rs.getInt("COUNT");
 				
-				 result.add(new Order(orderNo, orderDate,address));
+				 result.add(new Order(orderNo, orderDate,address, productName, count));
 				
 			}
 			

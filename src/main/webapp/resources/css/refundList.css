@@ -134,10 +134,12 @@
     display: flex;
     justify-content: end;
     background-color: rgba(38, 120, 243, 10%);
+    
 }
 
 .last-line > div{
     margin-top: 6px;
+    margin-right: 10px;
 }
 
 .end-line{

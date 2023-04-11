@@ -54,17 +54,17 @@
 				                        <!-- 상품번호 -->
 				                            <div class="img-div">
 				                                주문번호 : ${list.orderNo} 
+				                                <br><br><br><br>
+				                                ${list.orderDate } 일 주문
 				                            </div>
 				                        </div>
 				                        <!-- 이름과 가격 -->
 				                        <div class="product-detail-price">
 				                            <!-- 상품 -->
 				                            <div id="detail">
-				                                ${list.orderDate } 일 주문
+				                                ${list.productName} 포함 ${list.count} 건
 				                            </div>
-				                            <div>
-				                                 ${list.address }
-				                            </div>
+
 				                        </div>
 				                        	<div class="seeDetail" onclick="seeDetail('${list.orderNo}')">상세 보기</div>
 				                        <!-- 환불하기 -->
