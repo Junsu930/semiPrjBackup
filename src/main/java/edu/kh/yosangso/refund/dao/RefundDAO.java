@@ -49,12 +49,12 @@ public class RefundDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				String productName = rs.getString("PRODUCT_NM");
-				int orderNo = rs.getInt("ORDER_NO");
-				int price = rs.getInt("PRICE");
-				int buyingRate = rs.getInt("BUYING_RATE");
 				
-				 result.add(new Order(productName, orderNo, price, buyingRate));
+				String orderNo = rs.getString("ORDER_NO");
+				String orderDate = rs.getString("ORDER_DATE");
+				String address = rs.getString("ADDRESS");
+				
+				 result.add(new Order(orderNo, orderDate,address));
 				
 			}
 			
@@ -124,7 +124,7 @@ public class RefundDAO {
 			
 			while(rs.next()) {
 				String productName = rs.getString("PRODUCT_NM");
-				int orderNo = rs.getInt("ORDER_NO");
+				String orderNo = rs.getString("ORDER_NO");
 				int price = rs.getInt("PRICE");
 				int buyingRate = rs.getInt("BUYING_RATE");
 				String refundDate = rs.getString("REFUND_DATE");
@@ -159,7 +159,7 @@ public class RefundDAO {
 			
 			while(rs.next()) {
 				String productName = rs.getString("PRODUCT_NM");
-				int orderNo = rs.getInt("ORDER_NO");
+				String orderNo = rs.getString("ORDER_NO");
 				int price = rs.getInt("PRICE");
 				int buyingRate = rs.getInt("BUYING_RATE");
 				String refundDate = rs.getString("REFUND_DATE");
@@ -175,6 +175,35 @@ public class RefundDAO {
 		}
 		
 		return result;
+	}
+
+	public List<Order> seeDetail(Connection conn, String orderNo) throws Exception{
+	List<Order> list = new ArrayList<>();
+		
+		try {
+			
+			String sql = prop.getProperty("seeDetail");
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, orderNo);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String productName = rs.getString("PRODUCT_NM");
+				int price = rs.getInt("PRICE");
+				int buyingRate = rs.getInt("BUYING_RATE");
+				
+				list.add(new Order(productName, price, buyingRate));
+			}
+			
+		}finally {
+			
+			close(rs);
+			close(pstmt);
+		}
+		return list;
 	}
 
 }
