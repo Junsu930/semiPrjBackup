@@ -42,20 +42,22 @@
                         <div id="middle-area">
                             <div class="topQuestion">
                                 <div>
-                                    <h1>1:1 문의</h1>
+                                    <span>Question</span>
                                 </div>
                                 <div>
+                                ${loginMember.memberName}님 무엇이 궁금하세요?<br>
+                                <br>
                                 구매하려는 상품에 대해 궁금한 점이 있으신 경우 문의해주세요.
                                 </div>
                             </div>
                             
                             <div class="textAreaBox">
                                 <div>
-                                    <h1>1:1 문의 작성하기</h1>
+                                    <span>1:1 문의 작성하기</span>
                                 </div>
 
                                 <div>
-                                    <textarea name="" id="inquiryContent" cols="100" rows="20" placeholder="문의를 남겨주세요." value="inquiryContent"></textarea>
+                                    <textarea name="" id="inquiryContent"  placeholder="문의를 남겨주세요." value="inquiryContent"></textarea>
                                 </div>
                             </div>
 

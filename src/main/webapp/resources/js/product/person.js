@@ -49,15 +49,16 @@ $(".list").click(function() {
                 rightTitle.innerText = leftTitle;
                 rightSubTitle.innerText = leftSubTitle;
 
-
-
+				
                 // 제품 이미지
                 const productImage = document.createElement("img");
-                // 이미지 경로는 DB에 경로를 넣어야 하나 String으로 넣어야..
-                productImage.setAttribute("src", product.productImage);   
+                productImage.setAttribute("src", "/YoSangSo/resources/image/product/" + product.productName + ".jpg"); 
+                productImage.style.width = "135px";
+                productImage.style.height = "115px";
+                
                 // 이미지 박스
                 const productImageBox = document.createElement("div");
-                productImageBox.append(productImage);
+                productImageBox.appendChild(productImage);
                 
                     
                 // 제품명
@@ -74,7 +75,7 @@ $(".list").click(function() {
                 
                 // 제품 링크 연결
                 const productLink = document.createElement("a");
-                productLink.setAttribute("href", "");              
+                productLink.setAttribute("href", "productDetail?ProductNo=" + product.productNo);              
                 // 경로 연결...................
                 productLink.append(productBox);
             

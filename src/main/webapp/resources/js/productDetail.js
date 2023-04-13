@@ -64,30 +64,46 @@ const price = document.getElementById("price");
 const count = document.getElementById("countbox");
 const totalcost = document.getElementById("totalcost");
 const delcost = document.getElementById("delcost");
+const deltip = document.getElementById("deltip");
+const counting =document.getElementById("counting");
 
 count.addEventListener("click", function() {
 
-
     const n1 = Number(price.innerText) * count.value
-    const n2 = delcost.value
+    //const n2 = delcost.innerText;
+    counting.innerText = Number(n1);
 
-    totalcost.innerText = Number(n1)+Number(n2)
+	if(Number(n1) < 10000) {
+		const n2 = 3000;
+	
+        totalcost.innerText = Number(n1)+Number(n2)
+        deltip.innerText = n2;
+
+	} else {
+		
+		const n2 = 0;
+        totalcost.innerText = Number(n1)+Number(n2)
+        deltip.innerText = n2;
+	
+    }
 });
 
 function addcart() {
 	const count = document.getElementById("countbox").value;
 	const pro = document.getElementById("proNo").value;
-	const loginmember = document.getElementById("loginmember")
+	var signIn = sessionStorage.getItem('loginmember');
 	console.log(count);
 	console.log(pro);
 	console.log(loginmember);
+	
 
 		$.ajax({
 		url: "addcart",
 		type: "get",
 		data: {"count" : count, "productNo" : pro},
 		success: function(result){
-			alert("장바구니에 추가됨");;
+			swal("장바구니에 추가되었습니다.",'','success');
+			$("#sql-div").load(window.location.href + "#sql-div");
 		},
 		error: function() {
 			alert("수량을 선택해주세요");
@@ -95,8 +111,12 @@ function addcart() {
 			
 		}
 	});
-	
 		
+}
+
+function login() {
+	location.href="http://localhost:8080/YoSangSo/member/login"
+	
 }
 
 

@@ -16,7 +16,7 @@ import edu.kh.yosangso.board.model.vo.ReviewListPaging;
 import edu.kh.yosangso.member.model.vo.Member;
 import edu.kh.yosangso.product.model.vo.Product;
 
-@WebServlet("/member/reviewDoneList")
+@WebServlet("/board/reviewDoneList")
 public class ReviewDoneListPagingServlet extends HttpServlet {
 	
 
@@ -55,6 +55,7 @@ public class ReviewDoneListPagingServlet extends HttpServlet {
 		req.setAttribute("total", total);
 		
 		req.setAttribute("doneTotal", doneTotal);
+		
 		
 		
 		String path = "/WEB-INF/views/board/reviewDoneList.jsp";

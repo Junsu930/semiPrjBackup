@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 
 
 <!DOCTYPE html>
@@ -11,7 +12,7 @@
     <link rel="stylesheet" href="${contextPath}/resources/css/main-style.css">
     <link rel="stylesheet" href="${contextPath}/resources/css/productDetail.css">
     <link rel="stylesheet" href="${contextPath}/resources/css/slick.css">
-   
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://kit.fontawesome.com/881d1deef7.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     
@@ -21,13 +22,25 @@
 <body>
     <!-- 헤더, 컨텐츠 -->
     <main>
-        
+    <div id="sql-div">
+    <sql:setDataSource var= "conn" 
+	driver = "oracle.jdbc.driver.OracleDriver"
+	url="jdbc:oracle:thin:@//112.220.137.37:1521/xe"
+	user="yosangso"
+	password="yosangso"
+	/>
+    <c:if test="${loginMember != null}">
+     <sql:query var="resultSet" dataSource="${conn}">
+	   SELECT COUNT(*) COUNT FROM CART WHERE MEMBER_NO =${loginMember.memberNo } AND PRODUCT_NO = ${productList[0].productNo }
+	</sql:query>
+	</c:if>
+	</div>
+	
         <!-- 헤더 -->
         <jsp:include page="/WEB-INF/views/common/header.jsp"/>
         <br>
         <br>
         <br>
-        
         <section class="mainsec"> 
             <div class="all">
             <div>   
@@ -39,11 +52,13 @@
                         <img src="${contextPath}/resources/image/product/${productList[0].productName}.jpg">
                     </div>
                     <!--제품이름, 가격, 수량, 구매가격, 구매및 장바구니-->
-                    <form action="purchase" method="GET" name="purcahse">
+                    <form action="${contextPath}/order/pay" method="GET" name="purcahse">
+                    <input type="hidden" name="pay_mode" value="detail"/>
                     <div class ="productover">
                         <!--제품이름-->
                         <div class="productNm">
                             <h3>${productList[0].productName}</h3>
+                            
                         </div>
                         <!--가격-->
                         <div class="productPr">
@@ -55,37 +70,56 @@
                         <br>
                         <br>
                         <div class="del-cost">
-                            배송비 :<input id="delcost" value="3000">원
+                            배송비 : <span id="delcost">3000</span>원&nbsp;&nbsp;(10000원 이상 구매시 무료)
                         </div>
                         <br>
                         <hr>
                         <!--수량 가격-->
                         <div class="count">
-                            수량 : <input type="number" id="countbox" min="1" name="count">
+                            수량 : &nbsp;&nbsp;&nbsp;&nbsp;<input type="number" id="countbox" min="1" name="count" value="1">
                         </div>
                         <br>
                         <hr>
                         <!--총 금액-->
                         <div class="total-cost">
-                            <pre>총 상품금액</pre>
-                            <span id="totalcost"></span>원
-                        </div>
-                  
-                        <input type="hidden" value="${productList[0].productNo}" name="productNo" id="proNo">
+                        상품금액&nbsp;&nbsp;<span id="counting"></span>원 + 배송비&nbsp;&nbsp;<span id=deltip></span> = 총 상품금액
+                            &nbsp;&nbsp;<span id="totalcost"></span>원
                         
+                        </div>
+                        
+                  		<!-- 결제페이지로 넘기는 값 입니다. -->
+                        <input type="hidden" value="${productList[0].productNo}" name="productNo" id="proNo">
+                        <input type="hidden" value="${productList[0].productName}" name="productName">
+                        <input type="hidden" value="${productList[0].price}" name="price">
                         <input type="hidden" value="${loginMember.memberNo}" name="loginmember" id="loginmember">
                         <br>
+                        
                             <!--구매 버튼-->
                             <div>
-                            <button type="submit" id="btn-purchase">구매하기</button>
+	                            <button type="submit" id="btn-purchase">구매하기</button>
                             </div>
-                            
+	                            
                      </form>       
                             <br>
                             <div>
-                            <!--장바구니 버튼-->
-                           	<button type="button"  onclick="return addcart()" id="btn-addcart">장바구니</button>
-           
+                            
+                     <c:choose>     
+                        <c:when test="${loginMember != null}"> 
+                        	<c:choose>
+                            	<%--장바구니 버튼--%>
+	                         	<c:when test="${resultSet.rows[0].COUNT == '0'}">
+	                       			<button type="button"  onclick="return addcart()" id="btn-addcart">장바구니</button>
+	                        	</c:when>
+	                        	<c:otherwise>
+	                       			<button type="button"  onclick="swal('장바구니에 이미 있는 상품입니다.','','warning')" id="btn-addcart">장바구니</button>
+	                        	</c:otherwise>
+                        	</c:choose>
+                  
+                        </c:when>
+                        <c:otherwise>
+                       			<button type="button"  onclick="return login()" id="btn-addcart">장바구니</button>
+                        </c:otherwise>   
+           			</c:choose>
                             </div>   
                     </div>
                 </div>
@@ -165,7 +199,7 @@
                             <!--고객 아이콘-->
                             <div class="review-icon"><i class="fa-solid fa-circle-user"></i></div>
                             <!--고객 이름-->
-                            <div class="review-name">윤현식</div>
+                            <div class="review-name">${reviewtList[0].reviewNo}</div>
                             <!--게시일-->
                             <div class="review-date"><input type="date"></div>
                         </div>
@@ -174,10 +208,7 @@
                         <div class="review-main">
                             <img src="/assets/re1.jpeg">
                             <div>
-                                <pre class="review-con">
-                        유통기한이 넉넉해서 미리 구입했는데 품절이네요 이제품 2년째 복용중입니다 일단은 얼굴이마주름이 현저히 없어져서 저도 
-                        놀랄 정도구요 특히 무릎관절통증도 거의 사라졌어요 장기복용이 정답입니다 꾸준히 복용 해보세요.
-                                </pre>
+                                <pre class="review-con">${reviewtList[0].reviewContent}</pre>
                             </div>    
                         </div>
             

@@ -27,13 +27,13 @@
 
        		<div class="post-slider">
                  <p>추천 상품</p>
-                 <div class="post-wrap">
-                     <div class="post"><img src="${contextPath}/resources/image/cart/NOW Foods, E-400, 268mg, 소프트젤 250정.jpg"></div>
-                     <div class="post"><img src="${contextPath}/resources/image/cart/NOW Foods, E-400, 268mg, 소프트젤 250정.jpg"></div>
-                     <div class="post"><img src="${contextPath}/resources/image/cart/NOW Foods, E-400, 268mg, 소프트젤 250정.jpg"></div>
-                     <div class="post"><img src="${contextPath}/resources/image/cart/NOW Foods, E-400, 268mg, 소프트젤 250정.jpg"></div>
-                     <div class="post"><img src="${contextPath}/resources/image/cart/NOW Foods, E-400, 268mg, 소프트젤 250정.jpg"></div>
-                 </div>
+                   <div class="post-wrap">
+                       <div class="post"><a href="${contextPath}/product/productDetail?ProductNo=21"><img src="${contextPath}/resources/image/all/NOW Foods, E-400, 268mg, 소프트젤 250정.jpg"></a></div>
+                       <div class="post"><a href="${contextPath}/product/productDetail?ProductNo=15"><img src="${contextPath}/resources/image/all/NOW Foods, 고효능 비타민D-3, 10,000IU, 소프트젤 120정.jpg"></a></div>
+                       <div class="post"><a href="${contextPath}/product/productDetail?ProductNo=24"><img src="${contextPath}/resources/image/all/Jarrow Formulas, Zinc Balance, 베지 캡슐 100정.jpg"></a></div>
+                       <div class="post"><a href="${contextPath}/product/productDetail?ProductNo=33"><img src="${contextPath}/resources/image/all/Codeage, 비타민, 모발, 비오틴, 콜라겐. 케라틴, 캡슐 120정.jpg"></a></div>
+                       <div class="post"><a href="${contextPath}/product/productDetail?ProductNo=42"><img src="${contextPath}/resources/image/all/California Gold Nutrition, 비타민D3(감귤류), 2,000IU, 30ml(1fl oz) - 시트러스맛.jpg"></a></div>
+                   </div>
              </div>
         </c:if>
         <c:if test="${!empty cartList }">
@@ -49,7 +49,7 @@
                 </div>
             </div>
             <div class="cart-in-product">
-                <form action="${contextPath}/cart/addPayment" name="cart-form" method="post">
+                <form action="${contextPath}/order/pay" name="cart-form" method="GET">
                		<c:forEach var="list" items="${cartList}" varStatus="vs">
 	                    <div class="cart-in-product-border">
 	                        <!-- 이미지 -->
@@ -75,8 +75,8 @@
 	                                <input type="text" class="counting-input" value=${ list.buyingRate } disabled >
 	                                <input type="hidden" class="productNo" name="productNo" value=${ list.productNo }>
 	                                <input type="hidden" class="hiddencount" name="count" value=${ list.buyingRate }>
-		                            <button type="button" onclick="plusCount(${vs.index})" id="plus">+</button>
-	                                <button type="button" onclick="minusCount(${vs.index})" id="minus">-</button>
+	                                <button type="button" onclick="minusCount(${vs.index})" id="minus" class="pm-btn">-</button>
+		                            <button type="button" onclick="plusCount(${vs.index})" id="plus" class="pm-btn">+</button>
 	                            </div>
 	                        </div>
 	                        <!-- 총 가격 -->
@@ -89,6 +89,9 @@
 	                            <div>배송비</div>
 	                            3000 원
 	                            
+	                        </div>
+	                        <div>
+	                        	<button type="button" class="x-btn" onclick="deleteOne(${list.productNo})"><i class="fa-solid fa-xmark"></i></button>
 	                        </div>
 	                    </div>
                         <input type="hidden" value="${list.cartNo}" name="cartList">
@@ -109,28 +112,16 @@
                 <div class="post-slider">
                     <p>추천 상품</p>
                     <div class="post-wrap">
-                        <div class="post"><img src="${contextPath}/resources/image/cart/NOW Foods, E-400, 268mg, 소프트젤 250정.jpg"></div>
-                        <div class="post"><img src="${contextPath}/resources/image/cart/NOW Foods, E-400, 268mg, 소프트젤 250정.jpg"></div>
-                        <div class="post"><img src="${contextPath}/resources/image/cart/NOW Foods, E-400, 268mg, 소프트젤 250정.jpg"></div>
-                        <div class="post"><img src="${contextPath}/resources/image/cart/NOW Foods, E-400, 268mg, 소프트젤 250정.jpg"></div>
-                        <div class="post"><img src="${contextPath}/resources/image/cart/NOW Foods, E-400, 268mg, 소프트젤 250정.jpg"></div>
+                        <div class="post"><a href="${contextPath}/product/productDetail?ProductNo=21"><img src="${contextPath}/resources/image/all/NOW Foods, E-400, 268mg, 소프트젤 250정.jpg"></a></div>
+                        <div class="post"><a href="${contextPath}/product/productDetail?ProductNo=15"><img src="${contextPath}/resources/image/all/NOW Foods, 고효능 비타민D-3, 10,000IU, 소프트젤 120정.jpg"></a></div>
+                        <div class="post"><a href="${contextPath}/product/productDetail?ProductNo=24"><img src="${contextPath}/resources/image/all/Jarrow Formulas, Zinc Balance, 베지 캡슐 100정.jpg"></a></div>
+                        <div class="post"><a href="${contextPath}/product/productDetail?ProductNo=33"><img src="${contextPath}/resources/image/all/Codeage, 비타민, 모발, 비오틴, 콜라겐. 케라틴, 캡슐 120정.jpg"></a></div>
+                        <div class="post"><a href="${contextPath}/product/productDetail?ProductNo=42"><img src="${contextPath}/resources/image/all/California Gold Nutrition, 비타민D3(감귤류), 2,000IU, 30ml(1fl oz) - 시트러스맛.jpg"></a></div>
                     </div>
                 </div>
             </div>
           </c:if>
-        </div>
-
-
-	<!-- 장바구니 결제 테스트 입니다. -->
-       <form action="${contextPath}/order/pay" method="GET">
-			<button>결제 테스트 </button>
-       </form>
-       
-       <form action="${contextPath}/cart/addPayment" method="post">
-       		<input type="hidden" name="productNo" value="2">
-       		<button>개인 테스트</button>
-       </form>
-        
+        </div>      
 
     <!-- 헤더, 컨텐츠 끝 -->
     </main>

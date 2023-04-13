@@ -9,7 +9,9 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 반응형 페이지 필요 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="stylesheet" href="${contextPath }/resources/css/index.css">
     <link rel="stylesheet" href="${contextPath }/resources/css/main-style.css">
     <script src="https://kit.fontawesome.com/881d1deef7.js" crossorigin="anonymous"></script>
@@ -29,6 +31,9 @@
     
 </head>
 <body>
+
+
+
 <sql:setDataSource var= "conn" 
 	driver = "oracle.jdbc.driver.OracleDriver"
 	url="jdbc:oracle:thin:@//112.220.137.37:1521/xe"
@@ -73,17 +78,17 @@ select * from product
 
                         <div>
                             <img src="resources/image/index/메인슬라이더2편집.jpg" width="100%">
-                        </div>
-
-                        <div>
-                            <img src="resources/image/index/메인슬라이더3편집.png" width="100%">
+                        </div>	
+ 				
+                    	<div>
+                	        <img src="resources/image/index/메인슬라이더3편집.png" width="100%">
                         </div>
                     </div>
+                         
 
                 </section>
 
-
-
+			
 
                 <!-- 2 베스트부분 시작 -->
                 <section class="bestPart">
@@ -503,10 +508,11 @@ select * from product
             <!-- 오른쪽사이드바 -->
             <section class="rightSide">
 
+
                  <!-- 인체사진 플로팅바-->
-                 <div class="floating">
-                    <a href="product/person"> 
-                        <img id="people" src="resources/image/index/인체이미지누끼.png" >
+                 <div class="floating" id="floating">
+                    <a href="${contextPath}/product/person">
+                        <img id="people" src="${contextPath}/resources/image/index/인체이미지누끼.png" >
                     </a>
                 </div>
             
@@ -525,7 +531,7 @@ select * from product
 
 	<!-- jQuery 라이브러리 추가 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-   
+ 
     <!-- main.js 연결 -->
     <script src="${contextPath}/resources/js/index.js"></script>
     <script src="${contextPath}/resources/js/main.js"></script>
