@@ -34,7 +34,7 @@
 					
 					<c:if test="${empty orderList}">
 						<div class="not-exist-refund">
-							환불할 상품이 존재하지 않습니다.
+							주문 내역 존재하지 않습니다.
 							<button id="back-button" type="button" onclick="location.href='${contextPath}'">메인 화면으로</button>
 						</div>
 						
@@ -48,7 +48,7 @@
 			            </div>
 			                <div class="outer-line">
 							<c:forEach var="list" items="${orderList}">
-				            	<form action="${contextPath}/refund/refundDone"  name="refund-form" id="main-form" method="post" onsubmit="return false">
+				            	<form action="${contextPath}/refund/refundDone"  name="refund-form" id="main-form" method="get" onsubmit="return false">
 				                    <div class="refund-in-product-border">
 				                        <div>
 				                        <!-- 상품번호 -->

@@ -1,6 +1,9 @@
 package edu.kh.yosangso.board.model.service;
 
-import static edu.kh.yosangso.common.JDBCTemplate.*;
+import static edu.kh.yosangso.common.JDBCTemplate.close;
+import static edu.kh.yosangso.common.JDBCTemplate.commit;
+import static edu.kh.yosangso.common.JDBCTemplate.getConnection;
+import static edu.kh.yosangso.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.List;
@@ -17,35 +20,26 @@ public class ReviewService {
 	
 	
 	
-	/** 리뷰등록 서비스 + 이미지
+	/** 리뷰등록 서비스
 	 * @param reviewContent
-	 * @return
+	 * @param memberNo 
+	 * @param productNo 
+	 * @param orderDetailNo 
+	 * @return result
+	 * @author lee
 	 */
-	public int reviewAdd(String reviewContent, int reviewAddRate, List<ReviewImage> imageList) throws Exception{
+	public int reviewAdd(String reviewContent, int reviewAddRate, int memberNo, int productNo, int orderDetailNo) throws Exception{
 		
 		
-		System.out.println("리뷰작성 서비스 들어옴");
+		
 		// 결과 저장용 변수
 		int result = 0;
-		
-		
 		// 커넥션 연결해주기
 		Connection conn = getConnection();
 		
-		result = dao.reviewAdd(conn, reviewContent, reviewAddRate);
+		result = dao.reviewAdd(conn, reviewContent, reviewAddRate, memberNo, productNo,orderDetailNo);
 		
-		if(result > 0 ) {
-			System.out.println("리뷰 이미지 if문 진입");
-			for(ReviewImage image : imageList) {
-				if(result == 0) { // 이미지 삽입 실패
-					System.out.println("리뷰 이미지 if문 reulst == 0 진입");
-					break;
-				}else {
-					System.out.println("리뷰 이미지 else문 진입");
-					result = dao.reviewImageAdd(conn,image);
-				}
-			}
-		}
+		
 		if(result > 0) {
 			commit(conn);
 		}else {
@@ -55,7 +49,7 @@ public class ReviewService {
 		
 		// 커넥션 반환
 		close(conn);
-		System.out.println("리뷰작성 서비스 나감");
+		
 		return result;
 	}
 
@@ -83,16 +77,15 @@ public class ReviewService {
 
 	/** 리뷰 작성 페이지에 어떤 상품을 리뷰 작성하는 지 나타내는 정보를 가져오는 서비스
 	 * @param orderNo
-	 * @return
+	 * @return orderInfo
+	 * @author lee
 	 */
-	public Order selectReviewInfo(String orderDetailNo) throws Exception {
+	public Order selectReviewInfo(int orderDetailNo) throws Exception {
 		
 		Connection conn = getConnection();
-		
 		Order orderInfo = dao.selectReviewInfo(conn, orderDetailNo);
 		
 		close(conn);
-		
 		return orderInfo;
 	}
 
@@ -103,7 +96,8 @@ public class ReviewService {
 	 * @param orderDetailNo
 	 * @param updateContent 
 	 * @param reviewRate 
-	 * @return
+	 * @return result
+	 * @author lee
 	 */
 	public int updateReview(String updateContent, int reviewRate, String orderDetailNo) throws Exception{
 		
@@ -128,7 +122,8 @@ public class ReviewService {
 
 	/** 리뷰 삭제 서비스
 	 * @param orderDetailNo
-	 * @return
+	 * @return result
+	 * @author lee
 	 */
 	public int reviewDelete(String orderDetailNo) throws Exception{
 		
@@ -145,8 +140,6 @@ public class ReviewService {
 		
 		return result;
 	}
-
-
 
 
 }

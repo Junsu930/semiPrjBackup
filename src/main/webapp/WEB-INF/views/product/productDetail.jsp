@@ -18,6 +18,13 @@
     
     
     <title>productDetail</title>
+    
+     <!--탑 버튼-->
+    <a id="topBtn" href="#"> 
+        <i class="fa-solid fa-angle-up fa-2x"></i>
+    </a>
+    
+    
 </head>
 <body>
     <!-- 헤더, 컨텐츠 -->
@@ -69,6 +76,7 @@
                         <br>
                         <br>
                         <br>
+                        <img id="delicon" src="${contextPath}/resources/image/order/delivery.svg">
                         <div class="del-cost">
                             배송비 : <span id="delcost">3000</span>원&nbsp;&nbsp;(10000원 이상 구매시 무료)
                         </div>
@@ -82,9 +90,26 @@
                         <hr>
                         <!--총 금액-->
                         <div class="total-cost">
-                        상품금액&nbsp;&nbsp;<span id="counting"></span>원 + 배송비&nbsp;&nbsp;<span id=deltip></span> = 총 상품금액
-                            &nbsp;&nbsp;<span id="totalcost"></span>원
+                        	
+                        상품금액&nbsp;&nbsp;<span id="counting">${productList[0].price}</span>원 + 배송비&nbsp;&nbsp;
                         
+                        	<c:if test="${productList[0].price >= 10000}">
+                        		<span id=deltip>0</span>원
+                        		<c:set var="del" value="0"/>
+                        	</c:if>
+                        	
+                        	<c:if test="${productList[0].price < 10000}">
+                        		<c:set var="del" value="3000"/>
+                        		<span id=deltip>3000</span>원
+                        	</c:if>
+                        =
+                      	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      			
+                        총 상품금액
+                        &nbsp;<span id="totalcost">${productList[0].price + del}</span>원
+                        	
                         </div>
                         
                   		<!-- 결제페이지로 넘기는 값 입니다. -->
@@ -93,11 +118,18 @@
                         <input type="hidden" value="${productList[0].price}" name="price">
                         <input type="hidden" value="${loginMember.memberNo}" name="loginmember" id="loginmember">
                         <br>
-                        
-                            <!--구매 버튼-->
-                            <div>
-	                            <button type="submit" id="btn-purchase">구매하기</button>
-                            </div>
+                        <br>
+                        	
+                        	<c:if test="${loginMember != null}">
+	                            <div>
+		                            <button type="submit" id="btn-purchase">구매하기</button>
+	                            </div>
+                        	</c:if>
+							<c:if test="${loginMember == null}">
+	                            <div>
+		                            <button type="button"  onclick="return login()" id="btn-purchase">구매하기</button>
+	                            </div>
+                        	</c:if>
 	                            
                      </form>       
                             <br>
@@ -167,10 +199,10 @@
         
                 <div class="items">
                     <button class="prev"><</button>
-                    <div class="item active"><img src="${contextPath}/resources/image/product/Codeage, Fermented, 남성용 종합비타민, 캡슐 120정.jpg"></div>
-                    <div class="item"><img src="${contextPath}/resources/image/product/Codeage, 비타민, 메디테이트, 캡슐 60정정.jpg"></div>
-                    <div class="item"><img src="${contextPath}/resources/image/product/Codeage, 비타민, 모발, 비오틴, 콜라겐. 케라틴, 캡슐 120정.jpg"></div>
-                    <div class="item"><img src="${contextPath}/resources/image/product/Codeage, 비타민, 헤어 구미젤리, 무설탕, 비오틴, 비타민 C, 미네랄, 딸기 코코넛, 60개.jpg"></div>
+                    <div class="item active"><a href="${contextPath}/product/productDetail?ProductNo=31"><img class="recom" src="${contextPath}/resources/image/product/Codeage, Fermented, 남성용 종합비타민, 캡슐 120정.jpg"></a></div>
+                    <div class="item"><a href="${contextPath}/product/productDetail?ProductNo=29"><img class="recom"  src="${contextPath}/resources/image/product/Codeage, 비타민, 메디테이트, 캡슐 60정정.jpg"></a></div>
+                    <div class="item"><a href="${contextPath}/product/productDetail?ProductNo=33"><img class="recom"  src="${contextPath}/resources/image/product/Codeage, 비타민, 모발, 비오틴, 콜라겐. 케라틴, 캡슐 120정.jpg"></a></div>
+                    <div class="item"><a href="${contextPath}/product/productDetail?ProductNo=32"><img class="recom"  src="${contextPath}/resources/image/product/Codeage, 비타민, 헤어 구미젤리, 무설탕, 비오틴, 비타민 C, 미네랄, 딸기 코코넛, 60개.jpg"></a></div>
                     <button class="next">></button>
                 </div>
                     <div class="stepper">
@@ -193,47 +225,52 @@
                 <div class="review-container">
                     <h2>구매후기</h2>
                     <!--리뷰 1-->
-                    <div>
+                    <div class="reviewbox">
                         <!--고객 아이콘 이름 게시일-->
                         <div class="review-all">
                             <!--고객 아이콘-->
                             <div class="review-icon"><i class="fa-solid fa-circle-user"></i></div>
                             <!--고객 이름-->
-                            <div class="review-name">${reviewtList[0].reviewNo}</div>
+                            <div class="review-name"><span>${reviewList[0].memberName}</span></div>
                             <!--게시일-->
-                            <div class="review-date"><input type="date"></div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="review-date">게시일 : <span>${reviewList[0].reviewDate}</span></div>
+                            <!-- 평점 -->
+                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="review-rate">평점 : <span>${reviewList[0].reviewRate}</span></div>
                         </div>
             
                         <!--리뷰 내용-->
                         <div class="review-main">
-                            <img src="/assets/re1.jpeg">
-                            <div>
-                                <pre class="review-con">${reviewtList[0].reviewContent}</pre>
-                            </div>    
+                            
+                            
+                                <pre class="review-con">${reviewList[0].reviewContent}</pre>
+                              
                         </div>
             
                     </div>
                     <br>
                     <br>
                     <!--리뷰 2-->
-                    <div>
+                    <div class="reviewbox">
                         <!--고객 아이콘 이름 게시일-->
                         <div class="review-all">
                             <!--고객 아이콘-->
                             <div class="review-icon"><i class="fa-solid fa-circle-user"></i></div>
                             <!--고객 이름-->
-                            <div class="review-name">최훈석</div>
+                            <div class="review-name"><span>${reviewList[1].memberName}</span></div>
                             <!--게시일-->
-                            <div class="review-date"><input type="date"></div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="review-date">게시일 : ${reviewList[1].reviewDate}</div>
+                             <!-- 평점 -->
+                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="review-rate">평점 : <span>${reviewList[1].reviewRate}</span></div>
                         </div>
             
                         <!--리뷰 내용-->
                         <div class="review-main">
-                            <img src="/assets/re2.jpeg">
-                            <pre class="review-con">
-                        저분자 피쉬 콜라겐에 비타민c와 히알루론산까지 들어있는 제품이고 믿고 먹는 품질의 브랜드라 구매했어요 피부가 맑아지고 확실히
-                        효과 있어요 나이가 들면서 콜라겐이 줄어들기때문에 꾸준히 복용하려구요 한스푼에 물이나 음료 300ml 섞어서 먹으면 되요        
-                            </pre>
+                            
+                            <pre class="review-con">${reviewList[1].reviewContent}</pre>
                         </div>
                         
             
@@ -251,30 +288,30 @@
                 <!--FAQ 컨테이너-->
                 
                 <div class="FAQ-container">
-                    <h2>FAQ</h2>
+                    <h2>Q&A</h2>
                     <!--FAQ1-->
-                    <div>
+                    <div class="QNAbox">
                         <!--고객 아이콘, 이름, 게시일-->
-                        <div class="FAQ-all">
+                        <div class="FAQ-all1">
                             <!--고객 아이콘-->
                             <div class="FAQ-icon"><i class="fa-solid fa-circle-user"></i></div>
                             <!-- 고객 이름-->
-                            <div class="FAQ-name">김연수</div>
+                            <div class="FAQ-name">${QNAList[0].memberName}</div>
                             <!-- 게시일-->
-                            <div class="FAQ-date"><input type="date"></div>
+                            <div class="FAQ-date">${QNAList[0].inquiryDate}</div>
                         </div>
             
                         <!-- 질문 내용-->
                     <div id="Accordion_wrap">
                         <div class="que">
-                         <span>하루에 몇 달톤을 먹어야 하나요?</span>
+                         <span>${QNAList[0].inquiryContent}</span>
                           <div class="arrow-wrap">
                             <span class="arrow-top">↑</span>
                            <span class="arrow-bottom">↓</span>
                           </div>
                         </div>
                         <div class="anw">
-                         <span>하루에 300 달톤씩 복용하시면 됩니다</span>   
+                         <span>준비중입니다</span>   
                         </div>
                     </div>
             
@@ -284,43 +321,34 @@
                             <!--고객 아이콘-->
                             <div class="FAQ-icon"><i class="fa-solid fa-circle-user"></i></div>
                             <!-- 고객 이름-->
-                            <div class="FAQ-name">하현성</div>
+                            <div class="FAQ-name">${QNAList[1].memberName}</div>
                             <!-- 게시일-->
-                            <div class="FAQ-date"><input type="date"></div>
+                            <div class="FAQ-date">${QNAList[1].inquiryDate}</div>
                         </div>
             
                         <!-- 질문 내용-->
-                    <div id="Accordion_wrap">
+                    <div id="Accordion_wrap2">
                         <div class="que">
-                         <span>먹고나서 부작용이 있는거 같아요</span>
+                         <span>${QNAList[1].inquiryContent}</span>
                           <div class="arrow-wrap">
                             <span class="arrow-top">↑</span>
                            <span class="arrow-bottom">↓</span>
                           </div>
                         </div>
                         <div class="anw">
-                         <span>즉시 복용 중지 후 병원을 찾아가 주세요</span>   
+                         <span>준비중입니다</span>   
                         </div>
                     </div>
                 </div>
             
             
         </section> 
-        
-        
-
-        
-       
+         
        
 		<br>
 		<br>
 		<br>
-
-
-
-
-
-        
+     
 
     <!-- 헤더, 컨텐츠 끝 -->
     </main>

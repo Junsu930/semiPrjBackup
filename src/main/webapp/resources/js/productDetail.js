@@ -16,6 +16,19 @@ function prev(){
         $(".prev")[0].setAttribute("disabled",'true')
     }
 }
+
+$(function() {
+    $(window).scroll(function() { 
+      if ($(this).scrollTop() > 200) { 
+        $('#topBtn').fadeIn(); } 
+      else { $('#topBtn').fadeOut(); }
+    }); 
+    $("#topBtn").click(function() { 
+       $('html, body').animate({ scrollTop : 0  }, 300); 
+      return false; });
+  });
+
+
 function next(){
     if(curPos < 3){
         $("button").removeAttr("disabled")
@@ -78,12 +91,14 @@ count.addEventListener("click", function() {
 	
         totalcost.innerText = Number(n1)+Number(n2)
         deltip.innerText = n2;
+        counting.innerText = Number(n1);
 
 	} else {
 		
 		const n2 = 0;
         totalcost.innerText = Number(n1)+Number(n2)
         deltip.innerText = n2;
+        counting.innerText = Number(n1);
 	
     }
 });
@@ -118,6 +133,32 @@ function login() {
 	location.href="http://localhost:8080/YoSangSo/member/login"
 	
 }
+
+$(document).ready(function() {
+    count.addEventListener("click", function() {
+
+    const n1 = Number(price.innerText) * count.value
+    //const n2 = delcost.innerText;
+    counting.innerText = Number(n1);
+
+	if(Number(n1) < 10000) {
+		const n2 = 3000;
+	
+        totalcost.innerText = Number(n1)+Number(n2)
+        deltip.innerText = n2;
+        counting.innerText = Number(n1);
+
+	} else {
+		
+		const n2 = 0;
+        totalcost.innerText = Number(n1)+Number(n2)
+        deltip.innerText = n2;
+        counting.innerText = Number(n1);
+	
+    }
+})
+});
+
 
 
 

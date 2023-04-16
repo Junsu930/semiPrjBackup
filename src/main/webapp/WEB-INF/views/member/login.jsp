@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="${contextPath}/resources/css/main-style.css">
     <link rel="stylesheet" href="${contextPath}/resources/css/member/login.css">
     <script src="https://kit.fontawesome.com/881d1deef7.js" crossorigin="anonymous"></script>
-	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-
     <title>login</title>
 </head>
 <body>
@@ -28,7 +26,7 @@
                 <div>요생소</div>
             </section>
             <section>
-                <form action="signIn" method="POST">
+                <form action="${contextPath}/member/signIn" method="POST">
                     <div>
                         <input type="text" class="input-box" placeholder="아이디(이메일)" name="inputEmail" value="${cookie.saveId.value}" autocomplete="off">
                     </div>
@@ -71,17 +69,12 @@
             <hr>
             <section>
                 <div>
-                    <button class="btn kakao" onclick="kakaoLogin()">카카오 로그인</button>
-                </div>
-                <div>
-                    <button class="btn google">구글 로그인</button>
+                    <button class="kakaoLogin">
+                        <img src="${contextPath}/resources/image/login/kakao_login_large_wide.png" alt="카카오로그인" class="kakao">
+                    </button>
                 </div>
             </section>
         </section>
-
-
-
-
 
 
     <!-- 헤더, 컨텐츠 끝 -->

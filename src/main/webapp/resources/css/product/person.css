@@ -138,7 +138,7 @@
 
 /* 내용 배경색 */
 .people-bg {
-    background-color: #ffb3b3;
+    background-color: #DDF2EB;
 }
 
 .person-img {
@@ -148,4 +148,9 @@
     position: absolute;
     left: 27px;
     top: 0px;
+}
+
+.vitamin-title {
+    font-size: 21.33px;
+    font-weight: bold;
 }

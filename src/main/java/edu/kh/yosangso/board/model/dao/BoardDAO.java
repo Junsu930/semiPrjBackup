@@ -14,6 +14,7 @@ import java.util.Properties;
 
 import edu.kh.yosangso.board.model.vo.Board;
 import edu.kh.yosangso.board.model.vo.Pagination;
+import edu.kh.yosangso.board.model.vo.QNA;
 import edu.kh.yosangso.board.model.vo.Review;
 import edu.kh.yosangso.member.model.vo.Member;
 
@@ -42,6 +43,7 @@ public class BoardDAO {
 	 * @param content
 	 * @return
 	 * @throws Exception
+	 * @author lee
 	 */
 	public int inquiryAdd(Connection conn, String content, Member loginMember) throws Exception {
 		
@@ -75,6 +77,7 @@ public class BoardDAO {
 	 * @param inputPw
 	 * @return
 	 * @throws Exception
+	 * @author lee
 	 */
 	public int inquiryDelete(Connection conn, String boardNo) throws Exception {
 		
@@ -106,6 +109,7 @@ public class BoardDAO {
 	 * @param boardNo 
 	 * @return
 	 * @throws Exception
+	 * @author lee
 	 */
 	public int inquiryUpdate(Connection conn, String updateContent, String boardNo) throws Exception{
 		
@@ -132,6 +136,7 @@ public class BoardDAO {
 	 * @param conn
 	 * @return
 	 * @throws Exception
+	 * @author lee
 	 */
 	public int selectInquiryCount(Connection conn) throws Exception{
 		int result = 0;
@@ -152,6 +157,15 @@ public class BoardDAO {
 		return result ;
 	}
 
+	/** 전체 게시물 목록 조회 DAO
+	 * @param conn
+	 * @param inquiryList
+	 * @param pagination
+	 * @return
+	 * @throws Exception
+	 * @author lee
+	 * 
+	 */
 	public List<Board> selectInquiryList(Connection conn, List<Board> inquiryList, Pagination pagination) throws Exception{
 		
 		
@@ -189,22 +203,43 @@ public class BoardDAO {
 		return inquiryList;
 	}
 	
-	
 
-	public List<Review> selectqna(Connection conn, int pro) {
-		List<Review> reviewList = new ArrayList<>();
+	/** QNA 가져오기 DAO
+	 * @param conn
+	 * @param pro
+	 * @return
+	 */
+	public List<QNA> selectQNA(Connection conn) throws Exception{
+		
+		List<QNA> QNAList = new ArrayList<>();
 		
 		try {
-			 
-			String sql = prop.getProperty("selectReview");
 			
+			String sql = prop.getProperty("selectQNA");
 			
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				
+				int inquiryNO = rs.getInt("INQUIRY_NO");
+				String inquiryContent = rs.getString("INQUIRY_CONTENT");
+				String inquiryDate = rs.getString("INQUIRY_DATE");
+				int memberNo = rs.getInt("MEMBER_NO");
+				String memberName = rs.getString("MEMBER_NM");
+
+				
+				QNAList.add(new QNA(inquiryNO, inquiryContent, inquiryDate, memberNo, memberName));
+				
+			}
 			
 		} finally {
 			close(rs);
-			close(pstmt);
-
+			close(stmt);
+			
 		}
-		return null;
+		
+		
+		return QNAList;
 	}
 }
