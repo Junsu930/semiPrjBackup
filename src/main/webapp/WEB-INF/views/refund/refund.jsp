@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="${contextPath}/resources/css/refund.css">
 	<script src="https://kit.fontawesome.com/881d1deef7.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<title>환불페이지</title>
 	</head>
 <body>
